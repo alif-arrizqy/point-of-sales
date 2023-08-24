@@ -5,7 +5,7 @@ from rest_framework import status, permissions
 from .models import User
 from .serializers import UserSerializer
 from .helpers import ResponseHelper
-from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseNotFound
+
 
 
 class UserListView(APIView):
