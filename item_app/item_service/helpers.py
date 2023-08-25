@@ -42,7 +42,7 @@ class GetObjectHelper():
             return None
 
 
-class BodyHelper():
+class BodyItemHelper():
     def __init__(self, data):
         self.data = data
 

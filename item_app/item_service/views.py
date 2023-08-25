@@ -5,7 +5,7 @@ from rest_framework import status, permissions
 from rest_framework.decorators import api_view
 from .models import Item
 from .serializers import ItemSerializer
-from .helpers import ResponseHelper, BodyHelper, GetObjectHelper
+from .helpers import ResponseHelper, BodyItemHelper, GetObjectHelper
 from drf_yasg.utils import swagger_auto_schema
 
 
@@ -38,7 +38,7 @@ def create_item(request):
     '''
     if request.method == 'POST':
         # parse data
-        body = BodyHelper(data=request.data)
+        body = BodyItemHelper(data=request.data)
         serializer = ItemSerializer(data=body.parser_data())
         if serializer.is_valid():
             serializer.save()
@@ -95,7 +95,7 @@ def update_item(request, uuid):
         ).helper_response_without_data()
 
     # parse data
-    body = BodyHelper(data=request.data)
+    body = BodyItemHelper(data=request.data)
     serializer = ItemSerializer(item, data=body.parser_data())
     if serializer.is_valid():
         serializer.save()
