@@ -78,6 +78,34 @@ def get_user(request, uuid):
     ).helper_response()
 
 
+@swagger_auto_schema(method='GET', responses={200: UserSerializer})
+@api_view(['GET'])
+def find_user_name(request):
+    '''
+    retrieve a user by name
+    '''
+    name = request.data.get('name')
+    if not name:
+        return ResponseHelper(
+            status=status.HTTP_400_BAD_REQUEST,
+            message='name is required'
+        ).helper_response_without_data()
+
+    users = User.objects.filter(name__icontains=name)
+    if not users:
+        return ResponseHelper(
+            status=status.HTTP_404_NOT_FOUND,
+            message='user not found'
+        ).helper_response_without_data()
+
+    serializer = UserSerializer(users, many=True)
+    return ResponseHelper(
+        status=status.HTTP_200_OK,
+        message='get user is success',
+        data=serializer.data
+    ).helper_response()
+
+
 @swagger_auto_schema(method='PUT', request_body=UserSerializer)
 @api_view(['PUT'])
 def update_user(request, uuid):
