@@ -81,6 +81,34 @@ def get_item(request, uuid):
     ).helper_response()
 
 
+@swagger_auto_schema(method='GET', responses={200: ItemSerializer})
+@api_view(['GET'])
+def find_item_name(request):
+    '''
+    find item by name
+    '''
+    name = request.data.get('name')
+    if not name:
+        return ResponseHelper(
+            status=status.HTTP_400_BAD_REQUEST,
+            message='name is required'
+        ).helper_response_without_data()
+    
+    items = Item.objects.filter(name__icontains=name)
+    if not items:
+        return ResponseHelper(
+            status=status.HTTP_404_NOT_FOUND,
+            message='item not found'
+        ).helper_response_without_data()
+    
+    serializer = ItemSerializer(items, many=True)
+    return ResponseHelper(
+        status=status.HTTP_200_OK,
+        message='find item by name is success',
+        data=serializer.data
+    ).helper_response()
+
+
 @swagger_auto_schema(method='PUT', request_body=ItemSerializer)
 @api_view(['PUT'])
 def update_item(request, uuid):
