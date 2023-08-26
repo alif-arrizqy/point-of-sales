@@ -134,9 +134,6 @@ class BodyTransactionHelper():
             buyer_name = transaction["buyer"]
             item_name = transaction["item"]
 
-            # change qty to quantity
-            transaction["quantity"] = transaction.pop("qty")
-            
             # Check if buyer name is valid
             if not any(buyer["name"] == buyer_name for buyer in buyer_info):
                 print(f"Invalid buyer name: {buyer_name}")

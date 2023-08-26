@@ -4,11 +4,11 @@ from rest_framework.response import Response
 from rest_framework import status, permissions
 from rest_framework.decorators import api_view
 from .models import Transaction
-from .serializers import TransactionSerializer
+from .serializers import TransactionSerializer, TransactionBodySwagger
 from .helpers import *
 from drf_yasg.utils import swagger_auto_schema
 
-@swagger_auto_schema(method='POST', request_body=TransactionSerializer)
+@swagger_auto_schema(method='POST', request_body=TransactionBodySwagger)
 @api_view(['POST'])
 def create_transaction(request):
     '''

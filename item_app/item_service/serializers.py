@@ -2,6 +2,18 @@ from rest_framework import serializers
 from .models import Item
 
 
+class PricesChildSerializer(serializers.Serializer):
+    priceFor = serializers.CharField(max_length=100)
+    price = serializers.IntegerField()
+
+class ItemBodySwagger(serializers.Serializer):
+    name = serializers.CharField(max_length=100)
+    type = serializers.CharField(max_length=100)
+    prices = serializers.ListField(child=PricesChildSerializer())
+
+
+
+
 class ItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = Item

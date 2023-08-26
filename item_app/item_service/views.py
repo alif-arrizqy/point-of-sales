@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework import status, permissions
 from rest_framework.decorators import api_view
 from .models import Item
-from .serializers import ItemSerializer
+from .serializers import ItemSerializer, ItemBodySwagger
 from .helpers import ResponseHelper, BodyItemHelper, GetObjectHelper
 from drf_yasg.utils import swagger_auto_schema
 
@@ -30,7 +30,7 @@ def list_items(request):
         ).helper_response_without_data()
 
 
-@swagger_auto_schema(method='POST', request_body=ItemSerializer)
+@swagger_auto_schema(method='POST', request_body=ItemBodySwagger)
 @api_view(['POST'])
 def create_item(request):
     '''
@@ -109,7 +109,7 @@ def find_item_name(request):
     ).helper_response()
 
 
-@swagger_auto_schema(method='PUT', request_body=ItemSerializer)
+@swagger_auto_schema(method='PUT', request_body=ItemBodySwagger)
 @api_view(['PUT'])
 def update_item(request, uuid):
     '''
