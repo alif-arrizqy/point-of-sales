@@ -10,6 +10,21 @@ user_service_patterns = [
     path('delete/<uuid>/', views.delete_user, name='user service'),
 ]
 
+item_service_patterns = [
+    path('', views.get_items, name='item service'),
+    path('find-name/', views.find_item, name='item service'),
+    path('create/', views.create_item, name='item service'),
+    path('<uuid>/', views.get_item_by_uuid, name='item service'),
+    path('update/<uuid>/', views.update_item, name='item service'),
+    path('delete/<uuid>/', views.delete_item, name='item service'),
+]
+
+transaction_service_patterns = [
+    path('create/', views.create_transaction, name='transaction service'),
+]
+
 urlpatterns = [
-    path('user/', include(user_service_patterns))
+    path('user/', include(user_service_patterns)),
+    path('item/', include(item_service_patterns)),
+    path('transaction/', include(transaction_service_patterns)),
 ]
