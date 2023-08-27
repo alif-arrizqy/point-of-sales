@@ -2,6 +2,10 @@ from rest_framework import serializers
 from .models import User
 
 
+class FindNameSerializer(serializers.Serializer):
+    name = serializers.CharField(max_length=100)
+
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
