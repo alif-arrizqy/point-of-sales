@@ -32,20 +32,25 @@ class ValidationItemHelper():
         method helper to validate item
         '''
         transaction = self.data['transaction']
+        collect_response = []
         for item in transaction:
             data = {
                 "name": item['item'],
             }
             try:
-                req = requests.get(
-                    'http://localhost:8002/item/find-name/', data=data)
+                req = requests.post('http://localhost:8002/item/find-name/', data=data)
                 resp = req.json()
                 if resp.get('status_code') == 404:
-                    return False
+                    collect_response.append(False)
                 else:
-                    return True
+                    collect_response.append(True)                
             except:
                 None
+
+        if False in collect_response:
+            return False
+        else:
+            return True
 
     def item_info(self):
         '''
@@ -59,8 +64,7 @@ class ValidationItemHelper():
                 "name": item['item'],
             }
             try:
-                req = requests.get(
-                    'http://localhost:8002/item/find-name/', data=data)
+                req = requests.post('http://localhost:8002/item/find-name/', data=data)
                 resp = req.json()
                 item_info.append(resp.get('data')[0])
             except:
@@ -77,20 +81,26 @@ class ValidationBuyerHelper():
         method helper to validate buyer
         '''
         transaction = self.data['transaction']
+        collect_response = []
+
         for name in transaction:
             data = {
                 "name": name['buyer'],
             }
             try:
-                req = requests.get(
-                    'http://localhost:8001/user/find-name/', data=data)
+                req = requests.post('http://localhost:8001/user/find-name/', data=data)
                 resp = req.json()
                 if resp.get('status_code') == 404:
-                    return False
+                    collect_response.append(False)
                 else:
-                    return True
+                    collect_response.append(True)
             except:
                 None
+        
+        if False in collect_response:
+            return False
+        else:
+            return True
 
     def buyer_info(self):
         '''
@@ -103,8 +113,7 @@ class ValidationBuyerHelper():
                 "name": name['buyer'],
             }
             try:
-                req = requests.get(
-                    'http://localhost:8001/user/find-name/', data=data)
+                req = requests.post('http://localhost:8001/user/find-name/', data=data)
                 resp = req.json()
                 buyer_info.append(resp.get('data')[0])
             except:
@@ -180,9 +189,12 @@ class BodyTransactionHelper():
         data = {
             "name": best_selling_item,
         }
-        req = requests.get('http://localhost:8002/item/find-name/', data=data)
+        req = requests.post('http://localhost:8002/item/find-name/', data=data)
         resp = req.json()
-        best_selling_category = resp.get('data')[0]['type']
+        if resp.get('status_code') == 404:
+            return False
+        else:
+            best_selling_category = resp.get('data')[0]['type']
 
         # collect data
         item = ValidationItemHelper(data=self.data)
