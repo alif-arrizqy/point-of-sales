@@ -1,9 +1,4 @@
 
-# Point of Sales
-
-microservice of POS application
-
-
 ## Installation
 
 ### Install packages with pip
@@ -18,6 +13,11 @@ change directory to api_gateway/
 
 ```bash
     cd api_gateway
+```
+
+copy .env.example to .env
+```bash
+    cp .env.example .env
 ```
 
 running command
